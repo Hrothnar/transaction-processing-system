@@ -1,0 +1,22 @@
+spring: # Spring config
+  config: # config
+    activate: # activate
+      on-profile: prod # on which profile (service run mode) this configuration should be loaded
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/transaction
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:50}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    root: INFO
+    com.neo.tx: INFO
+  file:
+    name: ./logs/service.log # log file path

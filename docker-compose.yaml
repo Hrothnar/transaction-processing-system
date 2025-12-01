@@ -1,0 +1,20 @@
+services:
+  transaction:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transaction
+      SPRING_DATASOURCE_USERNAME: marshmallow
+      SPRING_DATASOURCE_PASSWORD: tasty
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:17.7
+    environment:
+      POSTGRES_DB: transaction
+      POSTGRES_USER: marshmallow
+      POSTGRES_PASSWORD: tasty
+    ports:
+      - "5432:5432"

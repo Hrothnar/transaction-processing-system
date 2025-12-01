@@ -1,0 +1,24 @@
+spring: # Spring config
+  config: # config
+    activate: # activate
+      on-profile: test # on which profile (service run mode) this configuration should be loaded
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: test
+    # URL and credentials are overridden dynamically from Testcontainers
+
+  test:
+    database:
+      replace: none  # don't use in-memory DB
+
+logging:
+  level:
+    root: WARN
+    com.neo.tx: DEBUG
