@@ -47,7 +47,7 @@ spring: # core Spring Boot configuration
       mode: never # look for schema.sql or data.sql and auto-run them (never - for manual/migration tool managing)
 
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.json
+    change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true # status
 
   jackson: # Jackson JSON serialization configuration

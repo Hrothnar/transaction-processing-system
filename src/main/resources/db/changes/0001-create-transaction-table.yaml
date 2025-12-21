@@ -1,0 +1,127 @@
+databaseChangeLog:
+    - changeSet:
+          id: 0001-create-transaction-table
+          author: Kirill Tatarenko
+          changes:
+              - createTable:
+                    tableName: transaction
+                    columns:
+                        - column:
+                              name: id
+                              type: BIGINT
+                              autoIncrement: true
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+
+                        - column:
+                              name: external_id
+                              type: BIGINT
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: user_id
+                              type: UUID
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: merchant_id
+                              type: UUID
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: device_id
+                              type: VARCHAR(64)
+                              constraints:
+                                  nullable: true
+
+                        - column:
+                              name: amount
+                              type: NUMERIC(19, 4)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: currency
+                              type: VARCHAR(3)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: initialized
+                              type: BIGINT
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: merchant_category
+                              type: VARCHAR(16)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: channel
+                              type: VARCHAR(64)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: ip_address
+                              type: VARCHAR(45)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: country
+                              type: VARCHAR(3)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: card_fingerprint
+                              type: VARCHAR(64)
+                              constraints:
+                                  nullable: true
+
+                        - column:
+                              name: created_at
+                              type: TIMESTAMP
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: updated_at
+                              type: TIMESTAMP
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              constraints:
+                                  nullable: false
+
+              - addUniqueConstraint:
+                    tableName: transaction
+                    columnNames: external_id
+                    constraintName: uq_transaction_external_id
+
+              - createIndex:
+                    tableName: transaction
+                    indexName: idx_transaction_user_id
+                    columns:
+                        - column:
+                              name: user_id
+
+              - createIndex:
+                    tableName: transaction
+                    indexName: idx_transaction_initialized
+                    columns:
+                        - column:
+                              name: initialized
+
+              - createIndex:
+                    tableName: transaction
+                    indexName: idx_transaction_created_at
+                    columns:
+                        - column:
+                              name: created_at
