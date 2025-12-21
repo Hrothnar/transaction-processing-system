@@ -1,0 +1,85 @@
+databaseChangeLog:
+    - changeSet:
+          id: 0002-create-validation-table
+          author: Kirill Tatarenko
+          changes:
+              - createTable:
+                    tableName: validation
+                    columns:
+                        - column:
+                              name: id
+                              type: BIGINT
+                              autoIncrement: true
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+
+                        - column:
+                              name: transaction_id
+                              type: BIGINT
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: score
+                              type: INT
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: risk_level
+                              type: VARCHAR(16)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: decision
+                              type: VARCHAR(16)
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: triggered_rule_codes
+                              type: TEXT[]
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: created_at
+                              type: TIMESTAMP
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              constraints:
+                                  nullable: false
+
+                        - column:
+                              name: updated_at
+                              type: TIMESTAMP
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              constraints:
+                                  nullable: false
+
+              - addForeignKeyConstraint:
+                    baseTableName: validation
+                    baseColumnNames: transaction_id
+                    referencedTableName: transaction
+                    referencedColumnNames: id
+                    constraintName: fk_validation_transaction
+                    onDelete: CASCADE
+                    onUpdate: RESTRICT
+
+              - createIndex:
+                    tableName: validation
+                    indexName: idx_validation_transaction_id
+                    columns:
+                        - column:
+                              name: transaction_id
+
+              # allow at most 1 validation row per transaction
+              - addUniqueConstraint:
+                    tableName: validation
+                    columnNames: transaction_id
+                    constraintName: uq_validation_transaction_id
+
+          rollback:
+              - dropTable:
+                    tableName: validation

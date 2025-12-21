@@ -1,9 +1,0 @@
-{
-    "databaseChangeLog": [
-        {
-            "include": {
-                "file": "db/changes/0001-create-transaction-table.json"
-            }
-        }
-    ]
-}
