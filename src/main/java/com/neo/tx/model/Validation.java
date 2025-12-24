@@ -1,16 +1,15 @@
 package com.neo.tx.model;
 
+import com.neo.tx.dto.ValidationResultDto;
+import com.neo.tx.enums.Decision;
+import com.neo.tx.enums.RiskLevel;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.neo.tx.enums.Decision;
-import com.neo.tx.enums.RiskLevel;
-
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "validation", uniqueConstraints = {
@@ -29,8 +28,6 @@ public class Validation {
     private Transaction transaction;
 
     @Column(name = "score", nullable = false)
-    @Min(0)
-    @Max(100)
     private Integer score;
 
     @Enumerated(EnumType.STRING)
@@ -41,9 +38,9 @@ public class Validation {
     @Column(name = "decision", nullable = false, length = 16)
     private Decision decision;
 
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "triggered_rule_codes", nullable = false, columnDefinition = "text[]")
-    private String[] triggeredRuleCodes;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "triggered_validators",columnDefinition = "jsonb", nullable = false)
+    private List<ValidationResultDto> triggeredValidators = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -103,12 +100,12 @@ public class Validation {
         this.decision = decision;
     }
 
-    public String[] getTriggeredRuleCodes() {
-        return triggeredRuleCodes;
+    public List<ValidationResultDto> getTriggeredValidators() {
+        return triggeredValidators;
     }
 
-    public void setTriggeredRuleCodes(String[] triggeredRuleCodes) {
-        this.triggeredRuleCodes = triggeredRuleCodes;
+    public void setTriggeredValidators(List<ValidationResultDto> triggeredRules) {
+        this.triggeredValidators = triggeredRules;
     }
 
     public Instant getCreatedAt() {

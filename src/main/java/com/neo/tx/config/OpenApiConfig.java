@@ -22,7 +22,7 @@ public class OpenApiConfig {
                         .description("System for validating financial transactions")
                         .contact(new Contact()
                                 .name("Kirill Tatarenko")
-                                .email("one.overcoming@gmail.com"))
+                                .email("juniper.infusion@gmail.com"))
                         .license(new License()
                                 .name("MIT")
                                 .url("https://mit-license.org/")))

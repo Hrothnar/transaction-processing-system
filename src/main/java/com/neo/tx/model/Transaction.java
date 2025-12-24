@@ -199,12 +199,4 @@ public class Transaction {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    public Validation getValidation() {
-        return validation;
-    }
-
-    public void setValidation(Validation validation) {
-        this.validation = validation;
-    }
 }

@@ -15,7 +15,7 @@ spring: # core Spring Boot configuration
     name: transaction-processing-system # application name (used in logs, tracing, metrics)
 
   profiles: # chosen profile (default = dev)
-    default: dev # profile name (application-{profiles.default}.yaml configuration is loaded additionally. Could be overrode with: SPRING_PROFILES_ACTIVE=prod or --spring.profiles.active=prod) 
+    default: dev # profile name (application-{profiles.default}.yaml configuration is loaded additionally. Could be overrode with: SPRING_PROFILES_ACTIVE=prod or --spring.profiles.active=prod)
 
   datasource: # DB connections and connection pool
     url: jdbc:postgresql://localhost:5432/transaction # JDBC URL
@@ -62,7 +62,7 @@ spring: # core Spring Boot configuration
     basename: messages # Spring will look for messages.properties, messages_en.properties, etc. Used for validation and error check.
     encoding: UTF-8 # default message encoding
 
-management: # Spring Boot Actuator (monitoring) configuration 
+management: # Spring Boot Actuator (monitoring) configuration
   endpoints: # endpoints
     web: # web
       exposure: # exposed endpoints
@@ -73,7 +73,7 @@ management: # Spring Boot Actuator (monitoring) configuration
 
 springdoc: # OpenAPI/Swagger configuration
   api-docs: # documents
-    path: /v1/openapi # path where raw OpenAPI file is served (available at /{servlet.context-path}/{api-docs.path}) 
+    path: /v1/openapi # path where raw OpenAPI file is served (available at /{servlet.context-path}/{api-docs.path})
   swagger-ui: # Swagger configuration
     path: /swagger # path to Swagger UI web page (available at /{servlet.context-path}/{swagger-ui.path})
     operations-sorter: method # groups operations by (method - by HTTP method)
@@ -81,7 +81,7 @@ springdoc: # OpenAPI/Swagger configuration
     display-request-duration: true # shows how long requests took in Swagger UI
     doc-expansion: none # collapse endpoints by default
   packages-to-scan: com.neo.tx # path for controller to include to OpenAPI spec
-  paths-to-match: /v1/** # only endpoints start with this path are documented
+  paths-to-match: /** # only endpoints start with this path are documented
 
 logging: # logging configuration
   level: # levels
@@ -90,5 +90,11 @@ logging: # logging configuration
     org.hibernate.SQL: DEBUG # default log level for SQL in Hibernate (if DEBUG, root also should be DEBUG to see logs)
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE # log with actual values (parameter bindings)
     com.neo.tx: DEBUG # application log level
-    liquibase: INFO  # liquibase log level
-    
+    liquibase: INFO # liquibase log level
+
+properties:
+  score-min: 0
+  score-max: 100
+  risk-threshold-low: 30
+  risk-threshold-medium: 70
+  risk-threshold-high: 100
