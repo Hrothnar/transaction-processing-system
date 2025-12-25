@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "validation", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_validation_transaction_id", columnNames = "transaction_id")
-}, indexes = {
-        @Index(name = "idx_validation_transaction_id", columnList = "transaction_id")
-})
+@Table(
+        name = "validation",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_validation_transaction_id", columnNames = "transaction_id")
+        },
+        indexes = {
+                @Index(name = "idx_validation_transaction_id", columnList = "transaction_id")
+        })
 public class Validation {
 
     @Id
@@ -39,7 +42,7 @@ public class Validation {
     private Decision decision;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "triggered_validators",columnDefinition = "jsonb", nullable = false)
+    @Column(name = "triggered_validators", columnDefinition = "jsonb", nullable = false)
     private List<ValidationResultDto> triggeredValidators = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)

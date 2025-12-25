@@ -8,13 +8,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "transaction", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_transaction_external_id", columnNames = "external_id")
-}, indexes = {
-        @Index(name = "idx_transaction_user_id", columnList = "user_id"),
-        @Index(name = "idx_transaction_initialized", columnList = "initialized"),
-        @Index(name = "idx_transaction_created_at", columnList = "created_at")
-})
+@Table(
+        name = "transaction",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_transaction_external_id", columnNames = "external_id")
+        },
+        indexes = {
+                @Index(name = "idx_transaction_user_id", columnList = "user_id"),
+                @Index(name = "idx_transaction_initialized", columnList = "initialized"),
+                @Index(name = "idx_transaction_created_at", columnList = "created_at")
+        })
 public class Transaction {
 
     @Id

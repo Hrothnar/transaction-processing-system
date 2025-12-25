@@ -1,29 +1,34 @@
 spring: # Spring config
-  config: # config
-    activate: # activate
-      on-profile: dev # on which profile (service run mode) this configuration should be loaded
+    config: # config
+        activate: # activate
+            on-profile: dev # on which profile (service run mode) this configuration should be loaded
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/transaction
-    username: marshmallow
-    password: tasty
+    datasource:
+        url: jdbc:postgresql://localhost:5432/transaction
+        username: marshmallow
+        password: tasty
 
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        show-sql: false
 
-logging:
-  level:
-    root: WARN
-    com.neo.tx: WARN
-    com.fasterxml.jackson: WARN
-    liquibase: WARN
-    org.hibernate.SQL: WARN
-    org.hibernate.type.descriptor.sql.BasicBinder: WARN
-    org.hibernate.orm.jdbc.bind: WARN
-    org.springframework.web: WARN
-    org.springframework.web.servlet.DispatcherServlet: WARN
+logging: # logging configuration (overrides logback logging levels)
+    level: # levels
+        root: INFO # default logging level for all unspecified loggers
+        com.neo.tx: INFO # minimum level for the application package (log.info(), log.debug(), etc)
+        com.fasterxml.jackson: INFO # Jackson logs (JSON serialization/deserialization)
+        liquibase: INFO # Liquibase migration logs
+        org.hibernate.SQL: INFO # Hibernate SQL statement logging (prints SQL queries)
+        org.hibernate.orm.jdbc.bind: INFO # Hibernate parameter binding logger (shows bound values with TRACE)
+        org.springframework.web: INFO # Spring Web / MVC logs
+        org.springframework.web.servlet.DispatcherServlet: INFO # Specific logger for DispatcherServlet (main Spring MVC dispatcher. INFO prints request lifecycle messages)
 
-  file:
-    name: ./logs/service.log # log file path
+properties:
+    score.min: 0
+    score.max: 100
+    risk.threshold.low: 30
+    risk.threshold.medium: 70
+    risk.threshold.high: 100
+    kafka.consumer.enabled: true
+    kafka.consumer.validation.topic: transaction.validation.completed

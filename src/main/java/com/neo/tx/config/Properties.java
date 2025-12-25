@@ -1,34 +1,28 @@
 package com.neo.tx.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "properties")
 public class Properties {
+    @Value("${properties.score.min}")
     public int scoreMin;
+
+    @Value("${properties.score.max}")
     public int scoreMax;
+
+    @Value("${properties.risk.threshold.low}")
     public int riskThresholdLow;
+
+    @Value("${properties.risk.threshold.medium}")
     public int riskThresholdMedium;
+
+    @Value("${properties.risk.threshold.high}")
     public int riskThresholdHigh;
 
-    public void setScoreMin(int scoreMin) {
-        this.scoreMin = scoreMin;
-    }
+    @Value("${properties.kafka.consumer.enabled}")
+    public boolean kafkaConsumerEnabled;
 
-    public void setScoreMax(int scoreMax) {
-        this.scoreMax = scoreMax;
-    }
-
-    public void setRiskThresholdLow(int riskThresholdLow) {
-        this.riskThresholdLow = riskThresholdLow;
-    }
-
-    public void setRiskThresholdMedium(int riskThresholdMedium) {
-        this.riskThresholdMedium = riskThresholdMedium;
-    }
-
-    public void setRiskThresholdHigh(int riskThresholdHigh) {
-        this.riskThresholdHigh = riskThresholdHigh;
-    }
+    @Value("${properties.kafka.consumer.validation.topic}")
+    public String kafkaConsumerValidationTopic;
 }

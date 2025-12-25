@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- auto-reload of the logback configuration when the file changes (logback periodically checks it) -->
 <configuration scan="true">
 
+<!-- register Spring Boot’s extra pattern converters -->
+    <!-- allows to colorize parts of the log output (console) -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
-    <conversionRule conversionWord="wex"
-                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
-    <conversionRule conversionWord="wEx"
-                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
+    <!-- nicer exception formatting  -->
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+
+    <!-- nicer exception formatting  -->
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- logs' path root directory -->
     <property name="LOG_PATH" value="./logs"/>
 
-    <property name="CONSOLE_LOG_PATTERN"
-              value="%clr(%d{yyyy-MM-dd HH:mm}){faint} %clr(%-5level) %clr(%class{0}){cyan} - %msg%n"/>
+    <!-- console log pattern -->
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm}){faint} %clr(%-5level) %clr(%class{0}){cyan} - %msg%n"/>
 
-    <property name="FILE_LOG_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"/>
+    <!-- file log pattern -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm} %-5level %logger{30} - %msg%n"/>
 
+<!-- where logs go -->
+    <!-- destination for console output -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -22,26 +31,41 @@
         </encoder>
     </appender>
 
+    <!-- destination for file output -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/service.log</file>
 
+        <!-- current log file (during run) -->
+        <file>${LOG_PATH}/current.log</file>
+
+        <!-- rolling policy (daily log files with) -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+            <!-- rolling logs file pattern -->
             <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- max file size of one rolling log -->
             <maxFileSize>50MB</maxFileSize>
+
+            <!-- max days of history -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
 
+        <!-- file encoding format -->
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <logger name="com.neo.tx" level="DEBUG"/>
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <!-- what parts of the program logs at what level (overridden/configured by application.yaml) -->
+    <logger name="com.neo.tx" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
 
+    <!-- default logger for unspecified parts of the program -->
     <root level="INFO">
+
+    <!-- everything that is logged (root + child loggers) uses these output streams -->
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
