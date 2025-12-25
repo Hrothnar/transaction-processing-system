@@ -18,11 +18,18 @@ public class TransactionService {
     private final PipelineService pipelineService;
     private final TransactionRepository transactionRepository;
     private final ValidationService validationService;
+    private final EventOutboxService eventOutboxService;
 
-    public TransactionService(PipelineService pipelineService, TransactionRepository transactionRepository, ValidationService validationService) {
+    public TransactionService(
+            PipelineService pipelineService,
+            TransactionRepository transactionRepository,
+            ValidationService validationService,
+            EventOutboxService eventOutboxService
+    ) {
         this.pipelineService = pipelineService;
         this.transactionRepository = transactionRepository;
         this.validationService = validationService;
+        this.eventOutboxService = eventOutboxService;
     }
 
     @Transactional
@@ -31,6 +38,7 @@ public class TransactionService {
         ValidationResponseDto analyzedResults = validationService.analyzeValidationResponses(results);
         Transaction transaction = transactionRepository.save(transactionRequestDto);
         Validation validation = validationService.save(analyzedResults, transaction);
+        eventOutboxService.writeValidationCompleted(transaction, validation, pipeline);
         return Mapper.toDto(validation, transaction.getId());
     }
 }

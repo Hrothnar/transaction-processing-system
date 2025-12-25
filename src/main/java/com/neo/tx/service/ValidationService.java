@@ -21,12 +21,10 @@ import java.util.UUID;
 public class ValidationService {
 
     private final Properties properties;
-    private final PipelineService pipelineService;
     private final ValidationRepository validationRepository;
 
-    public ValidationService(Properties properties, PipelineService pipelineService, ValidationRepository validationRepository) {
+    public ValidationService(Properties properties, ValidationRepository validationRepository) {
         this.properties = properties;
-        this.pipelineService = pipelineService;
         this.validationRepository = validationRepository;
     }
 
