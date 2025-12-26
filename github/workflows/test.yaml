@@ -1,0 +1,40 @@
+name: Run Tests
+
+on:
+    pull_request:
+        branches:
+            - main
+            - dev
+    push:
+        branches:
+            - main
+            - dev
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        services:
+            docker:
+                image: docker:24.0.5-dind
+                options: --privileged
+                ports:
+                    - 2375:2375
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up JDK
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: 25
+
+            -   name: Enable Docker
+                run: |
+                    sudo systemctl start docker
+                    docker version
+
+            -   name: Run tests
+                run: mvn clean test
