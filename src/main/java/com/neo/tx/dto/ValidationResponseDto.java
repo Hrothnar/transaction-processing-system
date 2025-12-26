@@ -26,4 +26,18 @@ public class ValidationResponseDto {
         this.decision = decision;
         this.validationResults = validationResults;
     }
+
+    @Override
+    public String toString() {
+        return "ValidationResponseDto{" +
+                "id=" + id +
+                ", transactionId=" + transactionId +
+                ", score=" + score +
+                ", riskLevel=" + riskLevel +
+                ", decision=" + decision +
+                ", validationResults=" + validationResults +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

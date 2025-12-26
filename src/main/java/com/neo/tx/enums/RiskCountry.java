@@ -31,24 +31,23 @@ public enum RiskCountry {
     ZAMBIA("ZMB"),
     ZIMBABWE("ZWE");
 
-    private final String alpha3;
-
-    RiskCountry(String alpha3) {
-        this.alpha3 = alpha3;
-    }
-
-    public String getAlpha3() {
-        return alpha3;
-    }
-
     private static final Map<String, RiskCountry> ALPHA3_MAP =
             Arrays.stream(values())
                     .collect(Collectors.toUnmodifiableMap(
                             RiskCountry::getAlpha3,
                             Function.identity()
                     ));
+    private final String alpha3;
+
+    RiskCountry(String alpha3) {
+        this.alpha3 = alpha3;
+    }
 
     public static boolean contains(String code) {
         return ALPHA3_MAP.containsKey(code);
+    }
+
+    public String getAlpha3() {
+        return alpha3;
     }
 }

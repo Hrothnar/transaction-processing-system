@@ -3,7 +3,6 @@ package com.neo.tx.message_broker;
 import com.neo.tx.model.OutboxEvent;
 import com.neo.tx.repository.EventOutboxRepository;
 import jakarta.transaction.Transactional;
-import org.apache.juli.logging.Log;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
