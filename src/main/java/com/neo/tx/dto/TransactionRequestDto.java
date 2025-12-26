@@ -59,4 +59,22 @@ public class TransactionRequestDto {
     @Schema(description = "Optional card fingerprint", example = "fp_9d82kdk29d")
     @Size(max = 64)
     public String cardFingerprint;
+
+    @Override
+    public String toString() {
+        return "TransactionRequestDto{" +
+                "externalId=" + externalId +
+                ", userId=" + userId +
+                ", merchantId=" + merchantId +
+                ", deviceId='" + deviceId + '\'' +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", initialized=" + initialized +
+                ", merchantCategory='" + merchantCategory + '\'' +
+                ", channel='" + channel + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", country='" + country + '\'' +
+                ", cardFingerprint='" + cardFingerprint + '\'' +
+                '}';
+    }
 }

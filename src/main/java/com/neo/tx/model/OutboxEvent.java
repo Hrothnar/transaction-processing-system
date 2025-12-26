@@ -19,42 +19,30 @@ public class OutboxEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "aggregate_type", nullable = false, length = 64)
     private String aggregateType;
-
     @Column(name = "aggregate_id", nullable = false, length = 64)
     private String aggregateId;
-
     @Column(name = "event_type", nullable = false, length = 128)
     private String eventType;
-
     @Column(name = "topic", nullable = false, length = 255)
     private String topic;
-
     @Column(name = "event_key", nullable = false, length = 128)
     private String eventKey;
-
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "payload", columnDefinition = "jsonb", nullable = false)
     private String payload;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 16)
     private Status status;
-
     @Column(name = "attempts", nullable = false)
     private Integer attempts;
-
     @Column(name = "last_error")
     private String lastError;
-
     @Column(name = "available_at", nullable = false)
     private Instant availableAt;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
-
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
@@ -180,5 +168,24 @@ public class OutboxEvent {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "OutboxEvent{" +
+                "id=" + id +
+                ", aggregateType='" + aggregateType + '\'' +
+                ", aggregateId='" + aggregateId + '\'' +
+                ", eventType='" + eventType + '\'' +
+                ", topic='" + topic + '\'' +
+                ", eventKey='" + eventKey + '\'' +
+                ", payload='" + payload + '\'' +
+                ", status=" + status +
+                ", attempts=" + attempts +
+                ", lastError='" + lastError + '\'' +
+                ", availableAt=" + availableAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

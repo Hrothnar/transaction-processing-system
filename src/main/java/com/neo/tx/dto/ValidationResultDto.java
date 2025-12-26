@@ -17,4 +17,13 @@ public class ValidationResultDto {
         this.description = description;
         this.scoreDelta = scoreDelta;
     }
+
+    @Override
+    public String toString() {
+        return "ValidationResultDto{" +
+                "code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                ", scoreDelta=" + scoreDelta +
+                '}';
+    }
 }
