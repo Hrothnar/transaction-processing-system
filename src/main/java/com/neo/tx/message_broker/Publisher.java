@@ -3,6 +3,7 @@ package com.neo.tx.message_broker;
 import com.neo.tx.model.OutboxEvent;
 import com.neo.tx.repository.EventOutboxRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Component
+@ConditionalOnProperty(prefix = "properties.kafka.producer", name = "enabled", havingValue = "true")
 public class Publisher {
 
     private static final int FIXED_DELAY = 5000;

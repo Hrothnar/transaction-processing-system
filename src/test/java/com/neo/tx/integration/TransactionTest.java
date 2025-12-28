@@ -12,7 +12,7 @@ import com.neo.tx.repository.TransactionJpaRepository;
 import com.neo.tx.repository.TransactionRepository;
 import com.neo.tx.repository.ValidationJpaRepository;
 import com.neo.tx.repository.ValidationRepository;
-import com.neo.tx.repository.specification.EventOutboxJpaRepository;
+import com.neo.tx.repository.EventOutboxJpaRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

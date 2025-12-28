@@ -20,6 +20,9 @@ public class Properties {
     @Value("${properties.risk.threshold.high}")
     public int riskThresholdHigh;
 
+    @Value("${properties.kafka.producer.enabled}")
+    public boolean kafkaProducerEnabled;
+
     @Value("${properties.kafka.consumer.enabled}")
     public boolean kafkaConsumerEnabled;
 

@@ -126,18 +126,4 @@ public class Validation {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    @Override
-    public String toString() {
-        return "Validation{" +
-                "id=" + id +
-                ", transaction=" + transaction +
-                ", score=" + score +
-                ", riskLevel=" + riskLevel +
-                ", decision=" + decision +
-                ", triggeredValidators=" + triggeredValidators +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
 }
