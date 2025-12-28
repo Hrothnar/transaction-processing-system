@@ -1,0 +1,109 @@
+server: # top-level Spring Boot configuration
+    port: 3000 # the port on which the server is going to listen on
+    servlet: # servlet container specific options
+        context-path: /api/ # prefix for all endpoints
+    shutdown: graceful # strategy on shut down command
+    compression: # GZIP HTTP response compression
+        enabled: true # status
+        mime-types: application/json,application/xml,text/html,text/plain # only responses with the specifies content types will be compressed
+        min-response-size: 1KB # lover bound for compressing
+    http2: # http2 support
+        enabled: true # status
+
+spring: # core Spring Boot configuration
+    application: # this application
+        name: transaction-processing-system # application name (used in logs, tracing, metrics)
+
+    profiles: # chosen profile (default = dev)
+        default: dev # profile name (application-{profiles.default}.yaml configuration is loaded additionally. Could be overrode with: SPRING_PROFILES_ACTIVE=prod or --spring.profiles.active=prod)
+
+    datasource: # DB connections and connection pool
+        url: jdbc:postgresql://localhost:5432/transaction # JDBC URL
+        username: marshmallow # DB credentials
+        password: tasty # DB credentials
+        driver-class-name: org.postgresql.Driver # explicitly specified JDBC driver
+        hikari: # chose HikariCP instead of default Tomcat JDBC pool (this one is more efficient)
+            maximum-pool-size: 20 # max connection pool size
+            minimum-idle: 5 # command to try to keep at least n connections ready
+            idle-timeout: 600000 # close idle connections after n milliseconds
+            max-lifetime: 1800000 # forcefully recycle a connection after n milliseconds (avoids issues with DB-side connection limits / NAT timeouts)
+            connection-timeout: 30000 # pool connection acquiring limit
+
+    jpa: # JPA and Hibernate configurations
+        # true: Hibernate session is kept open for the whole web request, including view rendering With REST APIs and services, this encourages lazy-loading from controllers (bad layering)
+        # false: forces to fetch what is needed in service/repository layer.
+        open-in-view: false
+        generate-ddl: false # turns on or off schema auto generation
+        hibernate: # Hibernate configuration
+            ddl-auto: validate # tables validation strategy (validate - compares entities and real tables)
+        show-sql: false # print or not SQL to std (best controlled via logging.level.org.hibernate.SQL)
+        properties: # additional Hibernate properties
+            hibernate.format_sql: true # pretty SQL formatting
+            hibernate.jdbc.time_zone: UTC # forces JDBC-level timezone to UTC+0
+            hibernate.default_schema: public # DB schema (default = public)
+
+    sql: # SQL schema/data initialization
+        init: # initialization
+            mode: never # look for schema.sql or data.sql and auto-run them (never - for manual/migration tool managing)
+
+    liquibase:
+        change-log: classpath:db/changelog/db.changelog-master.yaml
+        enabled: true # status
+
+    jackson: # Jackson JSON serialization configuration
+        time-zone: UTC # Jackson will output dates by specified timezone
+        default-property-inclusion: non_null # do not include fields with null values
+
+    mvc: # web layer configuration
+        problemdetails: # RFC 7807 ProblemDetail response format - unified error responses in Boot 3+/4
+            enabled: true # status
+
+    messages: # i18n / message sources
+        basename: messages # Spring will look for messages.properties, messages_en.properties, etc. Used for validation and error check.
+        encoding: UTF-8 # default message encoding
+
+    kafka: # Kafka configuration
+        bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:9094} # bootstrap server URL
+        producer: # producer configuration
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer # sends message key as string
+            value-serializer: org.apache.kafka.common.serialization.StringSerializer # sends message value as string
+            acks: all # broker will acknowledge only after data is committed according to replication settings
+        consumer: # consumer configuration
+            group-id: transaction-validation-consumer # consumers with same group share partitions (load balancing). Different group IDs each get a full copy of messages
+            auto-offset-reset: earliest # read from the earliest offset number of the group
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # treat incoming message key as string
+            value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # treat incoming message value as string
+
+management: # Spring Boot Actuator (monitoring) configuration
+    endpoints: # endpoints
+        web: # web
+            exposure: # exposed endpoints
+                include: health,info,metrics,loggers,threaddump,env # list of endpoints exposed over HTTP (/actuator/{url})
+    endpoint: # specific behavior
+        health: # for health endpoints
+            show-details: when_authorized # detailed health info is accessible only to specified users (UP and DOWN for anonymous)
+
+springdoc: # OpenAPI/Swagger configuration
+    api-docs: # documents
+        path: /v1/openapi # path where raw OpenAPI file is served (available at /{servlet.context-path}/{api-docs.path})
+    swagger-ui: # Swagger configuration
+        path: /swagger # path to Swagger UI web page (available at /{servlet.context-path}/{swagger-ui.path})
+        operations-sorter: method # groups operations by (method - by HTTP method)
+        tags-sorter: alpha # sorts tags by (alpha - alphabetically)
+        display-request-duration: true # shows how long requests took in Swagger UI
+        doc-expansion: none # collapse endpoints by default
+    packages-to-scan: com.neo.tx # path for controller to include to OpenAPI spec
+    paths-to-match: /** # only endpoints start with this path are documented
+
+logging: # logging configuration (overrides logback logging levels)
+    level: # levels
+        root: WARN # default logging level for all unspecified loggers
+        com.neo.tx: WARN # minimum level for the application package (log.info(), log.debug(), etc)
+        com.fasterxml.jackson: WARN # Jackson logs (JSON serialization/deserialization)
+        liquibase: WARN # Liquibase migration logs
+        org.hibernate.SQL: WARN # Hibernate SQL statement logging (prints SQL queries)
+        org.hibernate.orm.jdbc.bind: TRACE # Hibernate parameter binding logger (shows bound values with TRACE)
+        org.springframework.web: WARN # Spring Web / MVC logs
+        org.springframework.web.servlet.DispatcherServlet: WARN # Specific logger for DispatcherServlet (main Spring MVC dispatcher. INFO prints request lifecycle messages)
+
+properties:

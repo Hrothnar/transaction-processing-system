@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0003-create-event-outbox-table
+      author: Kirill Tatarenko
+      changes:
+        - createTable:
+            tableName: event_outbox
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: aggregate_type
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: aggregate_id
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: event_type
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: topic
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: event_key
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: payload
+                  type: JSONB
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: status
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: attempts
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: last_error
+                  type: TEXT
+
+              - column:
+                  name: available_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: event_outbox
+            indexName: idx_outbox_status_available_at
+            columns:
+              - column:
+                  name: status
+              - column:
+                  name: available_at
+
+      rollback:
+        - dropTable:
+            tableName: event_outbox

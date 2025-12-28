@@ -1,0 +1,41 @@
+spring: # Spring config
+    config: # config
+        activate: # activate
+            on-profile: test # on which profile (service run mode) this configuration should be loaded
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate.format_sql: true
+        show-sql: false
+
+    datasource: # URL and credentials are overridden dynamically from Testcontainers
+        url: jdbc:postgresql://localhost:5432/placeholder
+        username: placeholder
+        password: placeholder
+
+    test:
+        database:
+            replace: none  # don't use in-memory DB
+
+logging: # logging configuration (overrides logback logging levels)
+    level: # levels
+        root: WARN # default logging level for all unspecified loggers
+        com.neo.tx: WARN # minimum level for the application package (log.WARN(), log.WARN(), etc)
+        com.fasterxml.jackson: WARN # Jackson logs (JSON serialization/deserialization)
+        liquibase: WARN # Liquibase migration logs
+        org.hibernate.SQL: WARN # Hibernate SQL statement logging (prints SQL queries)
+        org.hibernate.orm.jdbc.bind: WARN # Hibernate parameter binding logger (shows bound values with TRACE)
+        org.springframework.web: WARN # Spring Web / MVC logs
+        org.springframework.web.servlet.DispatcherServlet: WARN # Specific logger for DispatcherServlet (main Spring MVC dispatcher. WARN prints request lifecycle messages)
+
+properties:
+    score.min: 0
+    score.max: 100
+    risk.threshold.low: 30
+    risk.threshold.medium: 70
+    risk.threshold.high: 100
+    kafka.producer.enabled: false
+    kafka.consumer.enabled: false
+    kafka.consumer.validation.topic: transaction.validation.completed
