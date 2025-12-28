@@ -8,6 +8,7 @@ import com.neo.tx.repository.TransactionRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,8 +25,7 @@ public class CountryMismatchValidation implements Evaluate {
 
     @Override
     public List<ValidationResultDto> evaluate(TransactionRequestDto transaction) {
-        Instant monthAgo = Instant.now().minusSeconds(30 * 24 * 60 * 60);
-        List<Transaction> transactions = transactionRepository.find(transaction.userId, monthAgo);
+        List<Transaction> transactions = transactionRepository.find(transaction.userId, Instant.now().minus(30, ChronoUnit.DAYS));
 
         long totalTransactions = transactions.size();
         long countryMatch = transactions.stream().filter((e) -> Objects.equals(e.getCountry(), transaction.country)).count();

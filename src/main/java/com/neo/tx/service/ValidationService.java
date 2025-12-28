@@ -47,10 +47,6 @@ public class ValidationService {
         return new ValidationResponseDto(totalScore, riskLevel, decision, results);
     }
 
-    public Validation saveValidation(ValidationResponseDto validationResponseDto, Transaction transaction) {
-        return validationRepository.save(validationResponseDto, transaction);
-    }
-
     public Validation save(ValidationResponseDto validationResponseDto, Transaction transaction) {
         return validationRepository.save(validationResponseDto, transaction);
     }

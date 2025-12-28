@@ -202,26 +202,4 @@ public class Transaction {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", externalId=" + externalId +
-                ", userId=" + userId +
-                ", amount=" + amount +
-                ", currency='" + currency + '\'' +
-                ", initialized=" + initialized +
-                ", merchantCategory='" + merchantCategory + '\'' +
-                ", merchantId=" + merchantId +
-                ", channel='" + channel + '\'' +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", country='" + country + '\'' +
-                ", deviceId='" + deviceId + '\'' +
-                ", cardFingerprint='" + cardFingerprint + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", validation=" + validation +
-                '}';
-    }
 }

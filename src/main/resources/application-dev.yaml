@@ -30,5 +30,6 @@ properties:
     risk.threshold.low: 30
     risk.threshold.medium: 70
     risk.threshold.high: 100
+    kafka.producer.enabled: true
     kafka.consumer.enabled: true
     kafka.consumer.validation.topic: transaction.validation.completed

@@ -31,12 +31,12 @@ public final class ValidationSpecification {
 
     public static Specification<Validation> initializedFrom(Instant from) {
         return (root, query, builder) ->
-                builder.greaterThanOrEqualTo(root.get("transaction").get("initialized"), from.toEpochMilli());
+                builder.greaterThanOrEqualTo(root.get("transaction").get("initialized"), from.getEpochSecond());
     }
 
     public static Specification<Validation> initializedTo(Instant to) {
         return (root, query, builder) ->
-                builder.lessThanOrEqualTo(root.get("transaction").get("initialized"), to.toEpochMilli());
+                builder.lessThanOrEqualTo(root.get("transaction").get("initialized"), to.getEpochSecond());
     }
 
     public static Specification<Validation> buildCondition(UUID userId, RiskLevel riskLevel, Decision decision, Instant from, Instant to) {

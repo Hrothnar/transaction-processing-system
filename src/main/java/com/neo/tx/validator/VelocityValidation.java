@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Component
@@ -28,10 +29,10 @@ public class VelocityValidation implements Evaluate {
         int threshold = 3;
         Instant now = Instant.now();
 
-        Page<Validation> pagedRecords = validationRepository.find(transaction.userId, null, null, now.minusSeconds(minutes * 60), now, 0, 100);
+        Page<Validation> pagedRecords = validationRepository.find(transaction.userId, null, null, now.minus(minutes, ChronoUnit.MINUTES), now, 0, 100);
 
         if (pagedRecords.getContent().size() > threshold) {
-            return List.of(new ValidationResultDto("HIGH_VELOCITY", "Transactions under user id " + transaction.userId + "are too frequent. Threshold: " + minutes, 25));
+            return List.of(new ValidationResultDto("HIGH_VELOCITY", "Transactions under user id " + transaction.userId + "are too frequent. Threshold: " + threshold, 25));
         }
 
         return List.of();
